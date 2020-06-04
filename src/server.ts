@@ -1,10 +1,14 @@
 import express from 'express';
 import { ApolloServer, gql } from 'apollo-server-express';
+import dotenv from 'dotenv';
 import cors from 'cors';
 import Station from './models/Station';
-import mongoose from 'mongoose';
+import mongoose, { mongo } from 'mongoose';
 import ExoplanetsAPI from './services/exoplanets.serice';
 //import schema from './schema';
+
+dotenv.config();
+const mongodbPassword = process.env.MONGODB_CLUSTER_PASSWORD;
 
 const typeDefs = gql`
   type Mass {
@@ -61,7 +65,7 @@ const app = express();
 app.use('*', cors());
 server.applyMiddleware({ app: app });
 
-mongoose.connect('mongodb+srv://pedro:luao9673@cluster0-exkvv.gcp.mongodb.net/test?retryWrites=true&w=majority', { useNewUrlParser: true, useUnifiedTopology: true, dbName: 'graphql' });
+mongoose.connect(`mongodb+srv://pedro:${mongodbPassword}@cluster0-exkvv.gcp.mongodb.net/test?retryWrites=true&w=majority`, { useNewUrlParser: true, useUnifiedTopology: true, dbName: 'graphql' });
 
 app.listen({ port: 4000 }, () =>
   console.log('Now browse to http://localhost:4000' + server.graphqlPath)
