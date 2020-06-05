@@ -1,7 +1,13 @@
-import mongoose, { Schema } from 'mongoose';
+import mongoose, { Schema, Document } from 'mongoose';
 
-const Station = new Schema({
-    name: String
+const StationSchema = new Schema({
+    planetName: String
 });
 
-export default mongoose.model('Station', Station);
+// agora vamos ter que uma estação
+// é tipada com um .planetName string
+interface Station extends Document {
+    planetName: string;
+}
+
+export default mongoose.model<Station>('Station', StationSchema);
