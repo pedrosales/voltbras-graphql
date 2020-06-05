@@ -1,20 +1,16 @@
-type Mass {
-    value: Float!,
-    unit: String!
-  }
+type Exoplanet {
+  name: String!
+  """O tipo de mass pelo desafio era um número"""
+  mass: Float!
+  hasStation: Boolean!
+}
 
-  type Exoplanet {
-    name: String!,
-    mass: Mass,
-    hasStation: Boolean
-  }
+type Query {
+  exoplanets(page: Int!, size: Int!): [Exoplanet]!
+  suitablePlanets(pages: Int): [Exoplanet]!
+}
 
-  type Query {
-    exoplanets(page: Int!, size: Int!): [Exoplanet]!
-    suitablePlanets(pages: Int): [Exoplanet]!
-  }
-
-  type Mutation {
-    installStation(name: String!): Boolean
-    uninstallStation(name: String!): Boolean
-  }
+type Mutation {
+  installStation(planetName: String!): Boolean
+  uninstallStation(planetName: String!): Boolean
+}
