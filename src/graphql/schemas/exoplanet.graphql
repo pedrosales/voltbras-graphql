@@ -10,8 +10,8 @@ type Mass {
   }
 
   type Query {
-    exoplanets: [Exoplanet]!
-    suitablePlanets: [Exoplanet]!
+    exoplanets(page: Int!, size: Int!): [Exoplanet]!
+    suitablePlanets(pages: Int): [Exoplanet]!
   }
 
   type Mutation {

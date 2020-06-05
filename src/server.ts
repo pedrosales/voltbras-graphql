@@ -8,7 +8,7 @@ import ExoplanetsAPI from './services/exoplanets.service';
 //import schema from './schema';
 
 
-import { makeExecutableSchema, loadSchemaSync, addResolversToSchema, GraphQLFileLoader } from 'graphql-tools';
+import { loadSchemaSync, addResolversToSchema, GraphQLFileLoader } from 'graphql-tools';
 
 import resolvers from './graphql/resolvers/exoplanet.resolver';
 import { join } from 'path';

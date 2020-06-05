@@ -3,9 +3,9 @@ import Station from '../../models/Station';
 const resolvers = {
     Query: {
         exoplanets: async (source, args, { dataSources }) => {
-            return await dataSources.exoplanetsAPI.getExoplanets() as any[];
+            return await dataSources.exoplanetsAPI.getExoplanets(args.page, args.size) as any[];
         },
-        suitablePlanets: async (source, args, { dataSources }) => await dataSources.exoplanetsAPI.suitablePlanets() as any[],
+        suitablePlanets: async (source, args, { dataSources }) => await dataSources.exoplanetsAPI.suitablePlanets(args.pages) as any[],
     },
     Mutation: {
         installStation: async (source, args) => {

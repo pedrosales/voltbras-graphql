@@ -10,9 +10,9 @@ class ExoplantesAPI extends RESTDataSource {
         this.baseURL = 'https://api.arcsecond.io/';
     }
 
-    async getExoplanets() {
+    async getExoplanets(page: number = 1, size: number = 10) {
         try {
-            const result = await this.get('exoplanets');
+            const result = await this.get('exoplanets', { page, page_size: size });
 
             return result.results.map(planet => {
                 let mass = {
@@ -22,19 +22,36 @@ class ExoplantesAPI extends RESTDataSource {
 
                 if (planet.mass != null && planet.mass.value != null) {
                     mass = { value: parseFloat(planet.mass.value), unit: planet.mass.unit };
-                    return { name: planet.name, mass };
                 }
+
+                return { name: planet.name, mass };
             });
         } catch (error) {
             console.log(error);
         }
     }
 
-    async suitablePlanets() {
+    async suitablePlanets(pages: number = 10) {
         try {
-            const planets = await this.get('exoplanets');
+            // let planets;
 
-            const suitPlantes = planets.results.filter(planet => planet.mass?.value > 25);
+            // if (page !== undefined && size !== undefined) {
+            //     planets = await this.get('exoplanets', { page, page_size: size });
+            // }
+            // else {
+            //     planets = await this.get('exoplanets');
+            // }
+
+            let allPlanets = [];
+            let planets = await this.get('exoplanets');
+
+            for (let i = 2; i <= pages; i++) {
+                allPlanets = allPlanets.concat(planets.results);
+                planets = await this.get('exoplanets', { page: i });
+            }
+
+            console.log(allPlanets.length);
+            const suitPlantes = allPlanets.filter(planet => planet.mass?.value > 25);
             const stations = await Station.find({}) as any[];
 
             const result = suitPlantes.map(planet => {
